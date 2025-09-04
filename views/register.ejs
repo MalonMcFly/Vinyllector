@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registrar usuario — Vinyllector</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+  <%- include('partials/navbar') %>
+  <main class="container card">
+    <h1>Crear cuenta</h1>
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="flash"><%= error %></div>
+    <% } %>
+    <form method="post" action="/register">
+      <div class="row">
+        <div class="col">
+          <label>Usuario</label>
+          <input class="input" name="username" required/>
+        </div>
+        <div class="col">
+          <label>Contraseña</label>
+          <input class="input" type="password" name="password" required/>
+        </div>
+      </div>
+      <button class="btn">Crear cuenta</button>
+      <a class="btn ghost" href="/login">Ya tengo cuenta</a>
+    </form>
+  </main>
+  <%- include('partials/footer') %>
+</body>
+</html>

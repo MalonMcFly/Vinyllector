@@ -1,0 +1,30 @@
+<header class="navbar">
+  <div class="nav-inner">
+    <div><a href="/" class="brand">Vinyllector</a></div>
+    <nav class="menu">
+      <a href="/tienda">Tienda</a>
+      <div class="dd">
+        <button class="dd-btn" onclick="toggleDD(event)">Categorías ▾</button>
+        <div class="dd-menu">
+          <a href="/tienda/vinilos">Vinilos</a>
+          <a href="/tienda/tornamesas">Tornamesas</a>
+          <a href="/tienda/accesorios">Accesorios</a>
+          <a href="/tienda/combos">Combos</a>
+        </div>
+      </div>
+      <a href="/cart">Carrito <span class="pill"><%= cartCount || 0 %></span></a>
+      <a href="/sobre">Sobre</a>
+      <a href="/blog">Blog</a>
+      <% if (auth) { %>
+        <a href="/register">Registrar</a>
+        <a href="/login">Ingresar</a>
+        <a href="/admin">Admin</a>
+        <form action="/logout" method="post" style="display:inline"><button class="link">Salir</button></form>
+      <% } else { %>
+        
+        <a href="/login">Ingresar</a>
+      <% } %>
+
+    </nav>
+  </div>
+</header>

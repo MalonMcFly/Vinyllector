@@ -1,0 +1,162 @@
+:root {
+  --bg: #f9fafb;         /* fondo general */
+  --panel: #ffffff;      /* tarjetas y contenedores */
+  --border: #e5e7eb;     /* bordes suaves */
+  --muted: #6b7280;      /* texto apagado */
+  --text: #1f2937;       /* texto principal */
+  --brand: #2563eb;      /* azul principal */
+  --accent: #16a34a;     /* verde secundario */
+  --danger: #dc2626;     /* rojo */
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto;
+}
+a{color:var(--brand);text-decoration:none}
+.container{max-width:1100px;margin:0 auto;padding:24px}
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:20px;
+  box-shadow:0 2px 6px rgba(0,0,0,.05);
+}
+.row{display:flex;gap:16px;flex-wrap:wrap}
+.col{flex:1 1 260px}
+.right{text-align:right}
+h1{margin:0 0 8px}
+.muted{color:var(--muted)}
+.btn{
+  background:var(--brand);
+  color:white;
+  border:none;
+  padding:10px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:600;
+}
+.btn.ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn.danger{background:var(--danger);color:white}
+.input,select{
+  width:100%;
+  background:var(--panel);
+  color:var(--text);
+  border:1px solid var(--border);
+  padding:10px;
+  border-radius:8px;
+}
+table{width:100%;border-collapse:collapse}
+th,td{border-bottom:1px solid var(--border);padding:10px;text-align:left}
+th{color:var(--muted);font-size:12px;text-transform:uppercase}
+.kpi{
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:var(--panel);
+}
+.kpi .v{font-size:22px;font-weight:700}
+.list{padding-left:16px}
+.pill{
+  padding:6px 10px;
+  border:1px solid var(--border);
+  border-radius:999px;
+  color:var(--muted);
+  font-size:12px
+}
+.chip{display:inline-block;padding:4px 10px;border-radius:999px;border:1px solid var(--border);color:var(--muted);font-size:12px}
+.navbar{
+  position:sticky;top:0;
+  background:white;
+  border-bottom:1px solid var(--border);
+  box-shadow:0 2px 4px rgba(0,0,0,.05);
+}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 24px}
+.menu{display:flex;gap:12px;align-items:center}
+.menu .link, .menu button.link{background:transparent;border:none;color:var(--text);cursor:pointer}
+.brand{font-weight:700;color:var(--brand)}
+.dd{position:relative}
+.dd .dd-menu{
+  display:none;
+  position:absolute;top:36px;left:0;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:6px;
+  min-width:200px;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.dd.open .dd-menu{display:block}
+.dd-menu a{display:block;padding:8px 12px;border-radius:6px}
+.dd-menu a:hover{background:#f3f4f6}
+.subnav{margin-bottom:12px}
+.subnav .pill{margin-right:6px}
+.footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+.flash{
+  background:#dbeafe;
+  border:1px solid #93c5fd;
+  color:#1e40af;
+  padding:8px 12px;
+  border-radius:8px;
+  margin-bottom:12px;
+}
+
+/* ESTILO CARRIL */
+.carousel{
+  position:relative;
+  margin-top:8px;
+}
+.carousel-track{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  scroll-behavior:smooth;
+  padding:8px 4px;
+}
+.carousel-track::-webkit-scrollbar{height:8px}
+.carousel-track::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:999px}
+
+.card-product{
+  min-width:240px;
+  max-width:240px;
+  flex:0 0 auto;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:var(--panel);
+  box-shadow:0 1px 4px rgba(0,0,0,.04);
+}
+.card-product .thumb{height:140px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+.card-product .thumb .ph{width:90%;height:80%;border-radius:8px;opacity:.9}
+.card-product .thumb .ph.vinilos{background:#fde68a}
+.card-product .thumb .ph.tornamesas{background:#bfdbfe}
+.card-product .thumb .ph.accesorios{background:#bbf7d0}
+.card-product .thumb .ph.combos{background:#fbcfe8}
+
+.card-product .info{padding:10px}
+.card-product .name{
+  font-weight:600;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.card-product .meta{
+  display:flex; gap:8px; align-items:center; margin-top:6px;
+}
+.card-product .price{font-weight:700}
+.card-product .stock{font-size:12px}
+.card-product .stock.ok{color:#16a34a}
+.card-product .stock.out{color:#dc2626}
+
+.carousel-btn{
+  position:absolute; top:50%; transform:translateY(-50%);
+  background:white; border:1px solid var(--border); color:var(--text);
+  width:36px; height:36px; border-radius:50%;
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+  cursor:pointer; font-size:18px; line-height:0;
+}
+.carousel-btn.prev{left:-6px}
+.carousel-btn.next{right:-6px}
+
+@media (max-width: 640px){
+  .card-product{min-width:200px;max-width:200px}
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vinyllector — Inicio</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+  <%- include('partials/navbar') %>
+
+  <main class="container card">
+    <h1>Dashboard</h1>
+    <p class="muted">Resumen rápido de la tienda.</p>
+
+    <div class="row">
+      <div class="col">
+        <div class="kpi">
+          <div class="muted">Productos activos</div>
+          <div class="v"><%= prdCount || 0 %></div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="kpi">
+          <div class="muted">Ventas del mes</div>
+          <div class="v">$<%= (ventasMes||0).toLocaleString('es-CL') %></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===========================
+         CARRIL DE PRODUCTOS
+         =========================== -->
+    <h2 style="margin-top:24px">Novedades</h2>
+    <div class="carousel">
+      <button class="carousel-btn prev" aria-label="Anterior" onclick="scrollCarril(-1)">‹</button>
+
+      <div class="carousel-track" id="carril">
+        <% (destacados || []).forEach(p => { %>
+          <article class="card-product">
+            <div class="thumb">
+              <!-- Imagen genérica por categoría (opcional, por ahora color plano) -->
+              <div class="ph <%= p.categoria %>"></div>
+            </div>
+            <div class="info">
+              <div class="name" title="<%= p.nombre %>"><%= p.nombre %></div>
+              <div class="meta">
+                <span class="price">$<%= p.precio.toLocaleString('es-CL') %></span>
+                <span class="stock <%= p.stock > 0 ? 'ok' : 'out' %>"><%= p.stock > 0 ? (p.stock + ' en stock') : 'Agotado' %></span>
+              </div>
+              <div class="cat pill"><%= p.categoria %></div>
+            </div>
+          </article>
+        <% }) %>
+      </div>
+
+      <button class="carousel-btn next" aria-label="Siguiente" onclick="scrollCarril(1)">›</button>
+    </div>
+
+    <h2 style="margin-top:24px">Actividad reciente</h2>
+    <ul class="list">
+      <% if (!acts || !acts.length) { %><li class="muted">Sin movimientos.</li><% } %>
+      <% (acts||[]).forEach(a => { %>
+        <li><span class="chip"><%= new Date(a.fecha).toLocaleString('es-CL') %></span> Venta <strong><%= a.folio %></strong> — <%= a.nombre %></li>
+      <% }) %>
+    </ul>
+  </main>
+
+  <%- include('partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

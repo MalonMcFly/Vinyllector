@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — Producto</title><link rel="stylesheet" href="/css/style.css"/></head>
+<body>
+  <%- include('../partials/navbar') %>
+  <main class="container card">
+    <%- include('../partials/admin_nav') %>
+    <h1><%= item ? 'Editar' : 'Nuevo' %> producto</h1>
+    <%- include('../partials/flash', { msg: typeof error !== 'undefined' ? error : '' }) %>
+    <form method="post" action="<%= item ? '/admin/productos/' + item.id : '/admin/productos' %>">
+      <div class="row">
+        <div class="col"><label>Código</label><input class="input" name="codigo" value="<%= item?.codigo || '' %>" required/></div>
+        <div class="col"><label>Nombre</label><input class="input" name="nombre" value="<%= item?.nombre || '' %>" required/></div>
+        <div class="col"><label>Precio</label><input class="input" name="precio" type="number" min="0" step="1" value="<%= item?.precio || 0 %>"/></div>
+        <div class="col"><label>Stock</label><input class="input" name="stock" type="number" min="0" step="1" value="<%= item?.stock || 0 %>"/></div>
+        <div class="col"><label>Categoría</label>
+          <select class="input" name="categoria">
+            <% ['vinilos','tornamesas','accesorios','combos'].forEach(c=> { %>
+              <option value="<%= c %>" <%= item && item.categoria===c ? 'selected' : '' %>><%= c %></option>
+            <% }) %>
+          </select>
+        </div>
+      </div>
+      <button class="btn">Guardar</button>
+      <a class="btn ghost" href="/admin/productos">Cancelar</a>
+    </form>
+  </main>
+  <%- include('../partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ingreso — Vinyllector</title>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+  <%- include('partials/navbar') %>
+  <main class="container card">
+    <h1>Ingreso</h1>
+    <form method="post" action="/login">
+      <input type="hidden" name="next" value="<%= next %>"/>
+      <% if (typeof error !== 'undefined') { %><div class="flash"><%= error %></div><% } %>
+      <div class="row">
+        <div class="col"><label>Usuario</label><input class="input" name="username" value="admin"/></div>
+        <div class="col"><label>Contraseña</label><input class="input" type="password" name="password" value="1234"/></div>
+      </div>
+      <button class="btn">Ingresar</button>
+    </form>
+  </main>
+  <%- include('partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tienda — <%= categoria %></title>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+  <%- include('partials/navbar') %>
+  <main class="container card">
+    <h1>Tienda</h1>
+    <p class="muted">Categoría: <strong><%= categoria %></strong></p>
+    <table>
+      <thead><tr><th>Producto</th><th class="right">Precio</th><th class="right">Stock</th><th>Categoría</th></tr></thead>
+      <tbody>
+      <% productos.forEach(p => { %>
+      <tr>
+        <td><%= p.nombre %></td>
+        <td class="right">$<%= p.precio.toLocaleString('es-CL') %></td>
+        <td class="right"><%= p.stock %></td>
+        <td>
+          <%= p.categoria %>
+          <!-- formulario para añadir al carrito -->
+          <form method="post" action="/cart/add" style="display:inline-block; margin-left:8px">
+            <input type="hidden" name="producto_id" value="<%= p.id %>"/>
+            <input class="input" type="number" name="cantidad" value="1" min="1" style="width:70px; display:inline-block"/>
+            <button class="btn" style="margin-left:6px">Añadir</button>
+          </form>
+        </td>
+      </tr>
+  <% }) %>
+</tbody>
+
+    </table>
+  </main>
+  <%- include('partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

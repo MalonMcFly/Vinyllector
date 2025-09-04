@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — Dashboard</title><link rel="stylesheet" href="/css/style.css"/></head>
+<body>
+  <%- include('../partials/navbar') %>
+  <main class="container card">
+    <%- include('../partials/admin_nav') %>
+    <h1>Panel Admin</h1>
+    <div class="row">
+      <div class="col"><div class="kpi"><div class="muted">Productos activos</div><div class="v"><%= prdCount %></div></div></div>
+      <div class="col"><div class="kpi"><div class="muted">Ventas del mes</div><div class="v">$<%= (ventasMes||0).toLocaleString('es-CL') %></div></div></div>
+    </div>
+    <h2>Actividad reciente</h2>
+    <ul class="list">
+      <% if (!acts.length) { %><li class="muted">Sin movimientos.</li><% } %>
+      <% acts.forEach(a => { %>
+        <li><span class="chip"><%= new Date(a.fecha).toLocaleString('es-CL') %></span> Venta <strong><%= a.folio %></strong> — <%= a.nombre %></li>
+      <% }) %>
+    </ul>
+  </main>
+  <%- include('../partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — Productos</title><link rel="stylesheet" href="/css/style.css"/></head>
+<body>
+  <%- include('../partials/navbar') %>
+  <main class="container card">
+    <%- include('../partials/admin_nav') %>
+    <h1>Productos</h1>
+    <form class="row" method="get">
+      <div class="col"><label>Buscar</label><input class="input" name="q" value="<%= q %>" placeholder="nombre o código"/></div>
+      <div class="col right"><a class="btn" href="/admin/productos/new">Nuevo</a></div>
+    </form>
+    <table>
+      <thead><tr><th>Código</th><th>Nombre</th><th class="right">Precio</th><th class="right">Stock</th><th>Categoría</th><th></th></tr></thead>
+      <tbody>
+        <% productos.forEach(p => { %>
+          <tr>
+            <td><%= p.codigo %></td>
+            <td><%= p.nombre %></td>
+            <td class="right">$<%= p.precio.toLocaleString('es-CL') %></td>
+            <td class="right"><%= p.stock %></td>
+            <td><%= p.categoria %></td>
+            <td class="right">
+              <a class="btn ghost" href="/admin/productos/<%= p.id %>/edit">Editar</a>
+              <form action="/admin/productos/<%= p.id %>/delete" method="post" style="display:inline"><button class="btn danger">Eliminar</button></form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </main>
+  <%- include('../partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

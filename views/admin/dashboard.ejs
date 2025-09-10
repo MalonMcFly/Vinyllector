@@ -1,25 +1,51 @@
-<!DOCTYPE html>
-<html lang="es">
-<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Admin — Dashboard</title><link rel="stylesheet" href="/css/style.css"/></head>
-<body>
-  <%- include('../partials/navbar') %>
-  <main class="container card">
-    <%- include('../partials/admin_nav') %>
-    <h1>Panel Admin</h1>
-    <div class="row">
-      <div class="col"><div class="kpi"><div class="muted">Productos activos</div><div class="v"><%= prdCount %></div></div></div>
-      <div class="col"><div class="kpi"><div class="muted">Ventas del mes</div><div class="v">$<%= (ventasMes||0).toLocaleString('es-CL') %></div></div></div>
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — Dashboard | Vinyllector</title>
+<%- include('../partials/assets_head') %>
+</head><body>
+<%- include('../partials/navbar') %>
+<main class="container my-4">
+  <%- include('../partials/admin_nav') %>
+
+  <div class="row g-3 mb-3">
+    <div class="col-md-6">
+      <div class="card shadow-sm"><div class="card-body">
+        <div class="text-muted">Productos activos</div>
+        <div class="display-6 fw-semibold"><%= prdCount %></div>
+      </div></div>
     </div>
-    <h2>Actividad reciente</h2>
-    <ul class="list">
-      <% if (!acts.length) { %><li class="muted">Sin movimientos.</li><% } %>
-      <% acts.forEach(a => { %>
-        <li><span class="chip"><%= new Date(a.fecha).toLocaleString('es-CL') %></span> Venta <strong><%= a.folio %></strong> — <%= a.nombre %></li>
-      <% }) %>
-    </ul>
-  </main>
-  <%- include('../partials/footer') %>
-  <script src="/js/main.js"></script>
-</body>
-</html>
+    <div class="col-md-6">
+      <div class="card shadow-sm"><div class="card-body">
+        <div class="text-muted">Ventas del mes</div>
+        <div class="display-6 fw-semibold">$<%= (ventasMes||0).toLocaleString('es-CL') %></div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h2 class="h5 mb-3">Actividad reciente</h2>
+      <% if (!acts.length) { %>
+        <p class="text-muted mb-0">Sin movimientos.</p>
+      <% } else { %>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light"><tr><th>Fecha</th><th>Folio</th><th>Producto</th></tr></thead>
+            <tbody>
+              <% acts.forEach(a=>{ %>
+                <tr>
+                  <td><%= new Date(a.fecha).toLocaleString('es-CL') %></td>
+                  <td><span class="badge text-bg-secondary"><%= a.folio %></span></td>
+                  <td><%= a.nombre %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</main>
+<%- include('../partials/footer') %>
+<%- include('../partials/assets_foot') %>
+</body></html>

@@ -220,13 +220,28 @@ app.post('/cart/checkout', async (req,res)=>{
 
 // --- AUTH ---
 app.get('/login', (req,res)=> res.render('login', { next: req.query.next || '/' }));
+
 app.post('/login', async (req,res)=>{
-  const { username, password } = req.body;
-  const row = await db.get('SELECT * FROM users WHERE username=? AND password=?', [username, password]);
-  if(!row) return res.render('login', { error:'Credenciales inválidas', next: req.body.next || '/' });
+  const username = (req.body.username || '').trim().toLowerCase();
+  const password = (req.body.password || '').trim();
+
+  if (!username || !password) {
+    return res.render('login', { error: 'Ingresa usuario y contraseña', next: req.body.next || '/' });
+  }
+
+  const row = await db.get(
+    'SELECT id, username FROM users WHERE LOWER(username)=? AND password=?',
+    [username, password]
+  );
+
+  if(!row){
+    return res.render('login', { error:'Credenciales inválidas', next: req.body.next || '/' });
+  }
+
   req.session.user = { id: row.id, username: row.username };
   res.redirect(req.body.next || '/admin');
 });
+
 app.post('/logout', (req,res)=> req.session.destroy(()=> res.redirect('/')));
 
 // --- REGISTRO DE USUARIOS ---

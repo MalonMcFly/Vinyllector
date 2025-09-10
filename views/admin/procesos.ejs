@@ -1,42 +1,63 @@
-<!DOCTYPE html>
-<html lang="es">
-<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Admin — Procesos</title><link rel="stylesheet" href="/css/style.css"/></head>
-<body>
-  <%- include('../partials/navbar') %>
-  <main class="container card">
-    <%- include('../partials/admin_nav') %>
-    <h1>Ventas — Registrar venta</h1>
-    <%- include('../partials/flash', { msg }) %>
-    <form method="post" action="/admin/procesos" class="row">
-      <div class="col"><label>Producto</label>
-        <select name="producto_id" class="input">
-          <% productos.forEach(p => { %>
-            <option value="<%= p.id %>"><%= p.codigo %> — <%= p.nombre %> (<%= p.stock %> en stock)</option>
-          <% }) %>
-        </select>
-      </div>
-      <div class="col"><label>Cantidad</label><input class="input" name="cantidad" type="number" value="1" min="1"/></div>
-      <div class="col"><button class="btn" style="margin-top:24px">Registrar venta</button></div>
-    </form>
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — Ventas | Vinyllector</title>
+<%- include('../partials/assets_head') %>
+</head><body>
+<%- include('../partials/navbar') %>
+<main class="container my-4">
+  <%- include('../partials/admin_nav') %>
+  <h1 class="h4 mb-3">Ventas — Registrar venta</h1>
 
-    <h2>Comprobantes recientes</h2>
-    <table>
-      <thead><tr><th>Fecha</th><th>Producto</th><th class="right">Cantidad</th><th class="right">Total</th><th>Folio</th></tr></thead>
-      <tbody>
-        <% ventas.forEach(v => { %>
-          <tr>
-            <td><%= new Date(v.fecha).toLocaleString('es-CL') %></td>
-            <td><%= v.producto_nombre %></td>
-            <td class="right"><%= v.cantidad %></td>
-            <td class="right">$<%= v.total.toLocaleString('es-CL') %></td>
-            <td><span class="pill"><%= v.folio %></span></td>
-          </tr>
-        <% }) %>
-      </tbody>
-    </table>
-  </main>
-  <%- include('../partials/footer') %>
-  <script src="/js/main.js"></script>
-</body>
-</html>
+  <% if (typeof msg !== 'undefined' && msg) { %>
+    <div class="alert alert-warning"><%= msg %></div>
+  <% } %>
+
+  <div class="card shadow-sm mb-3">
+    <div class="card-body">
+      <form method="post" action="/admin/procesos" class="row g-2">
+        <div class="col-md-8">
+          <label class="form-label">Producto</label>
+          <select name="producto_id" class="form-select">
+            <% productos.forEach(p => { %>
+              <option value="<%= p.id %>"><%= p.codigo %> — <%= p.nombre %> (<%= p.stock %> en stock)</option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Cantidad</label>
+          <input class="form-control" name="cantidad" type="number" value="1" min="1" required>
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+          <button class="btn btn-primary w-100">Registrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h2 class="h6 mb-3">Comprobantes recientes</h2>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr><th>Fecha</th><th>Producto</th><th class="text-end">Cantidad</th><th class="text-end">Total</th><th>Folio</th></tr>
+          </thead>
+          <tbody>
+            <% ventas.forEach(v => { %>
+              <tr>
+                <td><%= new Date(v.fecha).toLocaleString('es-CL') %></td>
+                <td><%= v.producto_nombre %></td>
+                <td class="text-end"><%= v.cantidad %></td>
+                <td class="text-end">$<%= v.total.toLocaleString('es-CL') %></td>
+                <td><span class="badge text-bg-secondary"><%= v.folio %></span></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+<%- include('../partials/footer') %>
+<%- include('../partials/assets_foot') %>
+</body></html>

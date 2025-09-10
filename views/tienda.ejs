@@ -3,38 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tienda — <%= categoria %></title>
-  <link rel="stylesheet" href="/css/style.css"/>
+  <title>Tienda — <%= categoria %> | Vinyllector</title>
+  <%- include('partials/assets_head') %>
 </head>
 <body>
   <%- include('partials/navbar') %>
-  <main class="container card">
-    <h1>Tienda</h1>
-    <p class="muted">Categoría: <strong><%= categoria %></strong></p>
-    <table>
-      <thead><tr><th>Producto</th><th class="right">Precio</th><th class="right">Stock</th><th>Categoría</th></tr></thead>
-      <tbody>
-      <% productos.forEach(p => { %>
-      <tr>
-        <td><%= p.nombre %></td>
-        <td class="right">$<%= p.precio.toLocaleString('es-CL') %></td>
-        <td class="right"><%= p.stock %></td>
-        <td>
-          <%= p.categoria %>
-          <!-- formulario para añadir al carrito -->
-          <form method="post" action="/cart/add" style="display:inline-block; margin-left:8px">
-            <input type="hidden" name="producto_id" value="<%= p.id %>"/>
-            <input class="input" type="number" name="cantidad" value="1" min="1" style="width:70px; display:inline-block"/>
-            <button class="btn" style="margin-left:6px">Añadir</button>
-          </form>
-        </td>
-      </tr>
-  <% }) %>
-</tbody>
 
-    </table>
+  <main class="container my-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <div>
+        <h1 class="h3 mb-1">Tienda</h1>
+        <p class="text-muted mb-0">Categoría: <strong><%= categoria %></strong></p>
+      </div>
+      <div>
+        <a class="btn btn-outline-secondary me-1" href="/tienda">Todos</a>
+        <a class="btn btn-outline-secondary me-1" href="/tienda/vinilos">Vinilos</a>
+        <a class="btn btn-outline-secondary me-1" href="/tienda/tornamesas">Tornamesas</a>
+        <a class="btn btn-outline-secondary me-1" href="/tienda/accesorios">Accesorios</a>
+        <a class="btn btn-outline-secondary" href="/tienda/combos">Combos</a>
+      </div>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <% if (!productos || !productos.length) { %>
+          <p class="text-muted mb-0">No hay productos para esta categoría.</p>
+        <% } else { %>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Producto</th>
+                  <th class="text-end">Precio</th>
+                  <th class="text-end">Stock</th>
+                  <th style="width: 360px;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% productos.forEach(p => { 
+                     const agotado = p.stock <= 0; %>
+                  <tr>
+                    <td>
+                      <div class="fw-semibold"><%= p.nombre %></div>
+                      <span class="badge text-bg-secondary"><%= p.categoria %></span>
+                      <small class="text-muted ms-2">Código: <%= p.codigo %></small>
+                    </td>
+                    <td class="text-end">$<%= p.precio.toLocaleString('es-CL') %></td>
+                    <td class="text-end">
+                      <% if (agotado) { %>
+                        <span class="badge text-bg-danger">Agotado</span>
+                      <% } else { %>
+                        <span class="badge text-bg-success"><%= p.stock %> en stock</span>
+                      <% } %>
+                    </td>
+                    <td>
+                      <form method="post" action="/cart/add" class="d-flex justify-content-end gap-2">
+                        <input type="hidden" name="producto_id" value="<%= p.id %>"/>
+                        <input class="form-control" type="number" name="cantidad" value="1" min="1" step="1"
+                               style="max-width:100px" <%= agotado ? 'disabled' : '' %> required>
+                        <button class="btn btn-primary" <%= agotado ? 'disabled' : '' %>>
+                          Añadir al carrito
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } %>
+      </div>
+    </div>
   </main>
+
   <%- include('partials/footer') %>
-  <script src="/js/main.js"></script>
+  <%- include('partials/assets_foot') %>
 </body>
 </html>

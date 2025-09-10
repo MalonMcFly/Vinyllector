@@ -1,36 +1,56 @@
-<!DOCTYPE html>
-<html lang="es">
-<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Admin — Productos</title><link rel="stylesheet" href="/css/style.css"/></head>
-<body>
-  <%- include('../partials/navbar') %>
-  <main class="container card">
-    <%- include('../partials/admin_nav') %>
-    <h1>Productos</h1>
-    <form class="row" method="get">
-      <div class="col"><label>Buscar</label><input class="input" name="q" value="<%= q %>" placeholder="nombre o código"/></div>
-      <div class="col right"><a class="btn" href="/admin/productos/new">Nuevo</a></div>
-    </form>
-    <table>
-      <thead><tr><th>Código</th><th>Nombre</th><th class="right">Precio</th><th class="right">Stock</th><th>Categoría</th><th></th></tr></thead>
-      <tbody>
-        <% productos.forEach(p => { %>
-          <tr>
-            <td><%= p.codigo %></td>
-            <td><%= p.nombre %></td>
-            <td class="right">$<%= p.precio.toLocaleString('es-CL') %></td>
-            <td class="right"><%= p.stock %></td>
-            <td><%= p.categoria %></td>
-            <td class="right">
-              <a class="btn ghost" href="/admin/productos/<%= p.id %>/edit">Editar</a>
-              <form action="/admin/productos/<%= p.id %>/delete" method="post" style="display:inline"><button class="btn danger">Eliminar</button></form>
-            </td>
-          </tr>
-        <% }) %>
-      </tbody>
-    </table>
-  </main>
-  <%- include('../partials/footer') %>
-  <script src="/js/main.js"></script>
-</body>
-</html>
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — Productos | Vinyllector</title>
+<%- include('../partials/assets_head') %>
+</head><body>
+<%- include('../partials/navbar') %>
+<main class="container my-4">
+  <%- include('../partials/admin_nav') %>
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4 mb-0">Productos</h1>
+    <a class="btn btn-primary" href="/admin/productos/new">Nuevo</a>
+  </div>
+
+  <form class="row g-2 mb-3" method="get">
+    <div class="col-sm-8 col-md-6">
+      <input class="form-control" name="q" value="<%= q %>" placeholder="Buscar por nombre o código">
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-outline-secondary">Buscar</button>
+    </div>
+  </form>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light">
+            <tr><th>Código</th><th>Nombre</th><th class="text-end">Precio</th><th class="text-end">Stock</th><th>Categoría</th><th class="text-end">Acciones</th></tr>
+          </thead>
+          <tbody>
+            <% productos.forEach(p=>{ %>
+              <tr>
+                <td><%= p.codigo %></td>
+                <td class="fw-semibold"><%= p.nombre %></td>
+                <td class="text-end">$<%= p.precio.toLocaleString('es-CL') %></td>
+                <td class="text-end"><%= p.stock %></td>
+                <td><span class="badge text-bg-secondary"><%= p.categoria %></span></td>
+                <td class="text-end">
+                  <a class="btn btn-sm btn-outline-primary me-1" href="/admin/productos/<%= p.id %>/edit">Editar</a>
+                  <form action="/admin/productos/<%= p.id %>/delete" method="post" class="d-inline"
+                        onsubmit="return confirm('¿Eliminar producto?')">
+                    <button class="btn btn-sm btn-outline-danger">Eliminar</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+<%- include('../partials/footer') %>
+<%- include('../partials/assets_foot') %>
+</body></html>

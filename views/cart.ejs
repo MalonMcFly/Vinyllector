@@ -2,43 +2,81 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Carrito — Vinyllector</title>
-  <link rel="stylesheet" href="/css/style.css"/>
+  <title>Carrito | Vinyllector</title>
+  <%- include('partials/assets_head') %>
 </head>
 <body>
   <%- include('partials/navbar') %>
-  <main class="container card">
-    <h1>Carrito</h1>
-    <%- include('partials/flash', { msg }) %>
+
+  <main class="container my-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h1 class="h3 mb-0">Carrito</h1>
+      <a class="btn btn-outline-secondary" href="/tienda">Seguir comprando</a>
+    </div>
+
+    <% if (typeof msg !== 'undefined' && msg) { %>
+      <div class="alert alert-info d-flex align-items-center" role="alert">
+        <div><%= msg %></div>
+      </div>
+    <% } %>
 
     <% if (!items || !items.length) { %>
-      <p class="muted">Tu carrito está vacío.</p>
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+          <p class="text-muted mb-3">Tu carrito está vacío.</p>
+          <a class="btn btn-primary" href="/tienda">Ir a la tienda</a>
+        </div>
+      </div>
     <% } else { %>
-      <table>
-        <thead><tr><th>Producto</th><th class="right">Precio</th><th class="right">Cantidad</th><th class="right">Subtotal</th></tr></thead>
-        <tbody>
-          <% items.forEach(it => { %>
-            <tr>
-              <td><%= it.nombre %></td>
-              <td class="right">$<%= it.precio.toLocaleString('es-CL') %></td>
-              <td class="right"><%= it.cantidad %></td>
-              <td class="right">$<%= (it.precio*it.cantidad).toLocaleString('es-CL') %></td>
-            </tr>
-          <% }) %>
-        </tbody>
-        <tfoot>
-          <tr><th colspan="3" class="right">Total</th><th class="right">$<%= total.toLocaleString('es-CL') %></th></tr>
-        </tfoot>
-      </table>
+      <div class="card shadow-sm mb-3">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Producto</th>
+                  <th class="text-end">Precio</th>
+                  <th class="text-end">Cantidad</th>
+                  <th class="text-end">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% items.forEach(it => { %>
+                  <tr>
+                    <td>
+                      <div class="fw-semibold"><%= it.nombre %></div>
+                      <span class="badge text-bg-secondary"><%= it.categoria %></span>
+                      <small class="text-muted ms-2">Código: <%= it.codigo %></small>
+                    </td>
+                    <td class="text-end">$<%= it.precio.toLocaleString('es-CL') %></td>
+                    <td class="text-end"><%= it.cantidad %></td>
+                    <td class="text-end">$<%= (it.precio * it.cantidad).toLocaleString('es-CL') %></td>
+                  </tr>
+                <% }) %>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th colspan="3" class="text-end">Total</th>
+                  <th class="text-end">$<%= total.toLocaleString('es-CL') %></th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
 
-      <form method="post" action="/cart/checkout" style="margin-top:12px; display:inline-block">
-        <button class="btn">Confirmar compra</button>
-      </form>
-      <form method="post" action="/cart/clear" style="margin-left:8px; display:inline-block">
-        <button class="btn ghost">Vaciar carrito</button>
-      </form>
+      <div class="d-flex gap-2">
+        <form method="post" action="/cart/checkout" class="d-inline">
+          <button class="btn btn-success">Confirmar compra</button>
+        </form>
+        <form method="post" action="/cart/clear" class="d-inline">
+          <button class="btn btn-outline-secondary">Vaciar carrito</button>
+        </form>
+      </div>
     <% } %>
   </main>
+
   <%- include('partials/footer') %>
+  <%- include('partials/assets_foot') %>
 </body>
 </html>

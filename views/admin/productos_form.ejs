@@ -1,32 +1,52 @@
-<!DOCTYPE html>
-<html lang="es">
-<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Admin — Producto</title><link rel="stylesheet" href="/css/style.css"/></head>
-<body>
-  <%- include('../partials/navbar') %>
-  <main class="container card">
-    <%- include('../partials/admin_nav') %>
-    <h1><%= item ? 'Editar' : 'Nuevo' %> producto</h1>
-    <%- include('../partials/flash', { msg: typeof error !== 'undefined' ? error : '' }) %>
-    <form method="post" action="<%= item ? '/admin/productos/' + item.id : '/admin/productos' %>">
-      <div class="row">
-        <div class="col"><label>Código</label><input class="input" name="codigo" value="<%= item?.codigo || '' %>" required/></div>
-        <div class="col"><label>Nombre</label><input class="input" name="nombre" value="<%= item?.nombre || '' %>" required/></div>
-        <div class="col"><label>Precio</label><input class="input" name="precio" type="number" min="0" step="1" value="<%= item?.precio || 0 %>"/></div>
-        <div class="col"><label>Stock</label><input class="input" name="stock" type="number" min="0" step="1" value="<%= item?.stock || 0 %>"/></div>
-        <div class="col"><label>Categoría</label>
-          <select class="input" name="categoria">
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — <%= item ? 'Editar' : 'Nuevo' %> producto | Vinyllector</title>
+<%- include('../partials/assets_head') %>
+</head><body>
+<%- include('../partials/navbar') %>
+<main class="container my-4" style="max-width: 840px;">
+  <%- include('../partials/admin_nav') %>
+  <h1 class="h4 mb-3"><%= item ? 'Editar' : 'Nuevo' %> producto</h1>
+
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div class="alert alert-danger"><%= error %></div>
+  <% } %>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <form method="post" action="<%= item ? '/admin/productos/' + item.id : '/admin/productos' %>" class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label">Código</label>
+          <input class="form-control" name="codigo" value="<%= item?.codigo || '' %>" required>
+        </div>
+        <div class="col-md-8">
+          <label class="form-label">Nombre</label>
+          <input class="form-control" name="nombre" value="<%= item?.nombre || '' %>" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Precio</label>
+          <input class="form-control" type="number" name="precio" min="0" step="1" value="<%= item?.precio || 0 %>" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Stock</label>
+          <input class="form-control" type="number" name="stock" min="0" step="1" value="<%= item?.stock || 0 %>" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Categoría</label>
+          <select class="form-select" name="categoria">
             <% ['vinilos','tornamesas','accesorios','combos'].forEach(c=> { %>
               <option value="<%= c %>" <%= item && item.categoria===c ? 'selected' : '' %>><%= c %></option>
             <% }) %>
           </select>
         </div>
-      </div>
-      <button class="btn">Guardar</button>
-      <a class="btn ghost" href="/admin/productos">Cancelar</a>
-    </form>
-  </main>
-  <%- include('../partials/footer') %>
-  <script src="/js/main.js"></script>
-</body>
-</html>
+        <div class="col-12 d-flex gap-2">
+          <button class="btn btn-success">Guardar</button>
+          <a class="btn btn-outline-secondary" href="/admin/productos">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+<%- include('../partials/footer') %>
+<%- include('../partials/assets_foot') %>
+</body></html>

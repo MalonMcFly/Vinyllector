@@ -1,34 +1,65 @@
-<!DOCTYPE html>
-<html lang="es">
-<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Admin — Reportes</title><link rel="stylesheet" href="/css/style.css"/></head>
-<body>
-  <%- include('../partials/navbar') %>
-  <main class="container card">
-    <%- include('../partials/admin_nav') %>
-    <h1>Reportes</h1>
-    <form method="get" class="row">
-      <div class="col"><label>Desde</label><input class="input" type="date" name="desde" value="<%= desde || '' %>"/></div>
-      <div class="col"><label>Hasta</label><input class="input" type="date" name="hasta" value="<%= hasta || '' %>"/></div>
-      <div class="col"><button class="btn" style="margin-top:24px">Filtrar</button> <a class="btn ghost" href="/admin/reportes.csv">Exportar CSV</a></div>
-    </form>
-    <table>
-      <thead><tr><th>Fecha</th><th>Producto</th><th class="right">Cantidad</th><th class="right">Precio</th><th class="right">Total</th></tr></thead>
-      <tbody>
-        <% ventas.forEach(v => { %>
-          <tr>
-            <td><%= new Date(v.fecha).toLocaleDateString('es-CL') %></td>
-            <td><%= v.producto_nombre %></td>
-            <td class="right"><%= v.cantidad %></td>
-            <td class="right">$<%= v.precio_unit.toLocaleString('es-CL') %></td>
-            <td class="right">$<%= v.total.toLocaleString('es-CL') %></td>
-          </tr>
-        <% }) %>
-      </tbody>
-      <tfoot><tr><th colspan="4" class="right">Total ventas</th><th class="right">$<%= total.toLocaleString('es-CL') %></th></tr></tfoot>
-    </table>
-  </main>
-  <%- include('../partials/footer') %>
-  <script src="/js/main.js"></script>
-</body>
-</html>
+<!DOCTYPE html><html lang="es"><head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin — Reportes | Vinyllector</title>
+<%- include('../partials/assets_head') %>
+</head><body>
+<%- include('../partials/navbar') %>
+<main class="container my-4">
+  <%- include('../partials/admin_nav') %>
+  <h1 class="h4 mb-3">Reportes</h1>
+
+  <div class="card shadow-sm mb-3">
+    <div class="card-body">
+      <form method="get" class="row g-2">
+        <div class="col-md-4">
+          <label class="form-label">Desde</label>
+          <input class="form-control" type="date" name="desde" value="<%= desde || '' %>">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Hasta</label>
+          <input class="form-control" type="date" name="hasta" value="<%= hasta || '' %>">
+        </div>
+        <div class="col-md-4 d-flex align-items-end gap-2">
+          <button class="btn btn-outline-secondary">Filtrar</button>
+          <a class="btn btn-success" href="/admin/reportes.csv">Exportar CSV</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <% if (!ventas.length) { %>
+        <p class="text-muted mb-0">No hay ventas para el rango seleccionado.</p>
+      <% } else { %>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr><th>Fecha</th><th>Producto</th><th class="text-end">Cantidad</th><th class="text-end">Precio</th><th class="text-end">Total</th></tr>
+            </thead>
+            <tbody>
+              <% ventas.forEach(v => { %>
+                <tr>
+                  <td><%= new Date(v.fecha).toLocaleDateString('es-CL') %></td>
+                  <td><%= v.producto_nombre %></td>
+                  <td class="text-end"><%= v.cantidad %></td>
+                  <td class="text-end">$<%= v.precio_unit.toLocaleString('es-CL') %></td>
+                  <td class="text-end">$<%= v.total.toLocaleString('es-CL') %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th colspan="4" class="text-end">Total ventas</th>
+                <th class="text-end">$<%= total.toLocaleString('es-CL') %></th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</main>
+<%- include('../partials/footer') %>
+<%- include('../partials/assets_foot') %>
+</body></html>
